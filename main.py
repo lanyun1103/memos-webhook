@@ -16,6 +16,7 @@ class WebhookData(BaseModel):
     createdTs: int
     memo: dict
 
+
 class Memo(BaseModel):
     id: int
     creatorId: int
@@ -26,6 +27,7 @@ class Memo(BaseModel):
     pinned: bool
     resourceList: list
     relationList: list
+
 
 class WebhookPayload(BaseModel):
     url: str
@@ -64,6 +66,7 @@ def get_text(url):
         print(f"Failed to retrieve text from URL: {url}. Error: {str(e)}")
         return {'title': None}
 
+
 # 定义一个路由，使用GET请求处理根路径
 @app.get("/")
 def read_root():
@@ -76,7 +79,7 @@ async def webhook_handler(payload: WebhookPayload):
     memo_id = payload.memo.id
     content = payload.memo.content
     regexp = r"\[.*?\]\(.*?\)"
-    content_clean = re.sub(regexp,"", content)
+    content_clean = re.sub(regexp, "", content)
     print(content_clean)
     url_regexp = r"https?://[\w/:%#\$&\?\(\)~\.=\+\-]+"
     urls = re.findall(url_regexp, content_clean)
